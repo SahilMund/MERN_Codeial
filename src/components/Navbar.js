@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 
 import styles from '../styles/navbar.module.css';
 import { useAuth } from '../hooks';
+import {Avatar} from '../assests';
+
 
 const Navbar = () => {
   // useAuth is a custom hook, which we are using to access the context  details
@@ -22,13 +24,13 @@ const Navbar = () => {
         {/* If user is present/loggedIn then show the user's dp and the name */}
         {auth.user && (
           <div className={styles.user}>
-            <a href="/">
+            <Link to="/settings">
               <img
-                src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+                src={Avatar}
                 alt=""
                 className={styles.userDp}
               />
-            </a>
+            </Link>
             <span>{auth.user.name}</span>
           </div>
         )}
