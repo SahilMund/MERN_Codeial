@@ -1,37 +1,37 @@
-import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes  as Switch} from 'react-router-dom';
+import { useAuth } from '../hooks';
 
-import { getPosts } from '../api';
-import { Home } from '../pages';
-import { Loader, Navbar } from './';
+import { Home,Login,Signup } from '../pages';
+import { Loader, Navbar ,PageNotFound} from './';
+
+
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // using useAUth custom hook to show the loader
+  const auth = useAuth();
 
-
-  // only fetch the data, when this component is loaded
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
-
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, []);
-
-  if (loading) {
+  if (auth.loading) {
     return <Loader />;
   }
 
+  // Routes is used to select only one route at a time 
   return (
     <div className="App">
-      <Navbar />
-      <Home posts={posts} />
+      <Router>
+        <Navbar />
+        <Switch>
+          
+          <Route exact path="/" element = {<Home />} />
+          
+          <Route exact path="/login" element = {   <Login />} />
+         
+          <Route exact path="/register" element = {<Signup />} />
+            
+          <Route element = {<PageNotFound />} />
+            
+       
+        </Switch>
+      </Router>
     </div>
   );
 }
