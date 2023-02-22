@@ -1,14 +1,19 @@
-import { BrowserRouter as Router, Route, Navigate ,Routes  as Switch} from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Navigate,
+  Routes as Switch,
+} from 'react-router-dom';
 import { useAuth } from '../hooks';
 
-import { Home,Login,Signup,UserProfile,Settings } from '../pages';
-import { Loader, Navbar ,PageNotFound} from './';
+import { Home, Login, Signup, UserProfile, Settings } from '../pages';
+import { Loader, Navbar, PageNotFound } from './';
 
+// CReating private route to restrcit the user to visit
 function PrivateRoute({ children }) {
   const auth = useAuth();
 
   return auth.user ? children : <Navigate to="/login" />;
-  
 }
 
 function App() {
@@ -19,27 +24,39 @@ function App() {
     return <Loader />;
   }
 
-  // Routes is used to select only one route at a time 
+  // Routes is used to select only one route at a time
   return (
     <div className="App">
       <Router>
         <Navbar />
         <Switch>
-          
-          <Route exact path="/" element = {<Home />} />
-          
-          <Route exact path="/login" element = {   <Login />} />
-         
-          <Route exact path="/register" element = {<Signup />} />
-          
-          <Route exact path="/settings" element = {<PrivateRoute><Settings /></PrivateRoute>} />
-         
-          <Route exact path="/user/:userId"
-           element = {<PrivateRoute><UserProfile /></PrivateRoute>} />
-            
-          <Route element = {<PageNotFound />} />
-            
-       
+          <Route exact path="/" element={<Home />} />
+
+          <Route exact path="/login" element={<Login />} />
+
+          <Route exact path="/register" element={<Signup />} />
+
+          <Route
+            exact
+            path="/settings"
+            element={
+              <PrivateRoute>
+                <Settings />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            exact
+            path="/user/:userId"
+            element={
+              <PrivateRoute>
+                <UserProfile />
+              </PrivateRoute>
+            }
+          />
+
+          <Route element={<PageNotFound />} />
         </Switch>
       </Router>
     </div>

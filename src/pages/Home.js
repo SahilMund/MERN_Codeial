@@ -1,39 +1,26 @@
 // import PropTypes from 'prop-types';
 import {Avatar,LikeIcon,CommentIcon} from '../assests';
-import { Comment, Loader } from '../components';
-import { useState,useEffect } from 'react';
-import { getPosts } from '../api';
+import { Comment, CreatePost, Loader, FriendsList } from '../components';
 import { Link } from 'react-router-dom';
+import { useAuth, usePosts } from '../hooks';
+
 
 import styles from '../styles/home.module.css';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
+  const auth = useAuth();
+  const posts = usePosts();
 
-  // only fetch the data, when this component is loaded for the first time
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
-
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, []);
-
-  if (loading) {
+  if (posts.loading) {
     return <Loader />;
   }
 
   return (
-    <div className={styles.postsList}>
-      {posts.map((post) => (
+    <div className={styles.home}>
+      <div className={styles.postsList}>
+        <CreatePost />
+      {posts.data.map((post) => (
         <div className={styles.postWrapper} key={`post-${post._id}`}>
           
           <div className={styles.postHeader}>
@@ -57,7 +44,7 @@ const Home = () => {
                 <span className={styles.postTime}>a minute ago</span>
               </div>
             </div>
-            <div className={styles.postContent}>{post.conent}</div>
+            <div className={styles.postContent}>{post.content}</div>
 
             <div className={styles.postActions}>
               <div className={styles.postLike}>
@@ -65,7 +52,7 @@ const Home = () => {
                   src={LikeIcon}
                   alt="likes-icon"
                 />
-                <span>5</span>
+                <span>{post.likes.length}</span>
               </div>
 
               <div className={styles.postCommentsIcon}>
@@ -88,6 +75,8 @@ const Home = () => {
           </div>
         </div>
       ))}
+    </div>
+    {auth.user && <FriendsList />}
     </div>
   );
 };

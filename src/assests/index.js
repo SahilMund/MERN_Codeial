@@ -4,3 +4,5 @@ import CommentIcon from '../assests/comment.png';
 
 // exporting all the images used in this project
 export {Avatar,LikeIcon,CommentIcon};
+
+// email:-Moriarity@12.com , pwd-12

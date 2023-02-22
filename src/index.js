@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {App} from './components';
 import { ToastProvider } from 'react-toast-notifications';
-import { AuthProvider } from './providers/AuthProvider';
+import { AuthProvider, PostsProvider } from './providers';
 
 
 import './styles/index.css';
@@ -13,7 +13,9 @@ root.render(
   <React.StrictMode>
         <ToastProvider autoDismiss autoDismissTimeout={5000} placement="top-left">
         <AuthProvider>
+        <PostsProvider>
         <App />
+        </PostsProvider>
       </AuthProvider>
     </ToastProvider>
   </React.StrictMode>
