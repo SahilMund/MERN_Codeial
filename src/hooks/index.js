@@ -190,10 +190,23 @@ export const usePosts = () => {
       setPosts(newPosts);
     };
   
+
+    const addComment = (comment, postId) => {
+      const newPosts = posts.map((post) => {
+        if (post._id === postId) {
+          return { ...post, comments: [...post.comments, comment] };
+        }
+        return post;
+      });
+  
+      setPosts(newPosts);
+    };
+
     return {
       data: posts,
       loading,
       addPostToState,
+      addComment
     };
   };
   
