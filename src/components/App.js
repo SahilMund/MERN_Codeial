@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Route, Navigate ,Routes  as Switch} from 'react-router-dom';
 import { useAuth } from '../hooks';
 
-import { Home,Login,Signup } from '../pages';
+import { Home,Login,Signup,UserProfile,Settings } from '../pages';
 import { Loader, Navbar ,PageNotFound} from './';
-import Settings from './../pages/Settings';
 
 function PrivateRoute({ children }) {
   const auth = useAuth();
@@ -34,6 +33,9 @@ function App() {
           <Route exact path="/register" element = {<Signup />} />
           
           <Route exact path="/settings" element = {<PrivateRoute><Settings /></PrivateRoute>} />
+         
+          <Route exact path="/user/:userId"
+           element = {<PrivateRoute><UserProfile /></PrivateRoute>} />
             
           <Route element = {<PageNotFound />} />
             
